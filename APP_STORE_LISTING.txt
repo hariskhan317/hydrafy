@@ -1,0 +1,100 @@
+==========================================================
+HYDRAFY — APP STORE CONNECT LISTING (copy/paste)
+==========================================================
+
+
+----------------------------------------------------------
+PROMOTIONAL TEXT  (max 170 chars — optional, editable anytime without review)
+----------------------------------------------------------
+Build a hydration habit you'll actually keep. Track every sip, hit your daily goal, and watch your little water buddy thrive.
+
+
+----------------------------------------------------------
+DESCRIPTION  (max 4,000 chars — required)
+----------------------------------------------------------
+Hydrafy makes drinking enough water simple and genuinely fun.
+
+Hydrafy is a subscription app. A paid subscription (Hydrafy Pro) is required to use the app and unlocks all features below. Every new subscription starts with a 3-day free trial — cancel anytime before it ends and you won't be charged.
+
+Set a smart daily goal based on your body, activity, and climate — then log each glass with a tap and watch your hydration buddy come to life as you fill up.
+
+Your Hydrafy Pro subscription includes:
+• Personalized daily goal from your weight, activity, and climate
+• One-tap logging for glasses, bottles, or custom amounts
+• Gentle sip reminders that fit your daily schedule
+• Streaks that keep you motivated day after day
+• Weekly history and clear progress insights
+• All mascot cosmetics, unlocked
+
+Stay consistent, feel better, and make hydration something you actually look forward to.
+
+— Subscription details —
+Hydrafy requires a paid subscription to use. All features are part of the subscription; there is no free tier beyond the introductory trial.
+
+• Hydrafy Pro is available as Monthly or Yearly, each with a 3-day free trial
+• Payment is charged to your Apple ID at confirmation of purchase
+• Subscription auto-renews unless cancelled at least 24 hours before the end of the current period
+• Your account is charged for renewal within 24 hours prior to the end of the current period
+• Manage or cancel anytime in your App Store account settings
+
+Terms of Use: https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
+Privacy Policy: https://hariskhan317.github.io/hydrafy/privacy-policy.html
+
+
+----------------------------------------------------------
+KEYWORDS  (max 100 chars — comma-separated, NO spaces after commas)
+----------------------------------------------------------
+water,hydration,drink,tracker,reminder,health,habit,goal,fitness,wellness,daily,intake
+
+
+----------------------------------------------------------
+SUPPORT URL  (required — must be a reachable page)
+----------------------------------------------------------
+https://hariskhan317.github.io/hydrafy/support.html
+
+
+----------------------------------------------------------
+MARKETING URL  (optional)
+----------------------------------------------------------
+<leave blank, or add your landing page>
+
+
+----------------------------------------------------------
+VERSION
+----------------------------------------------------------
+1.0
+
+
+----------------------------------------------------------
+COPYRIGHT  (optional)
+----------------------------------------------------------
+2026 Haris Khan
+
+
+==========================================================
+IN-APP PURCHASE METADATA (for each subscription product)
+==========================================================
+
+--- Pro Monthly (hydrafy_pro_monthly) ---
+Display Name:   Hydrafy Pro (Monthly)
+Description:    Full access to Hydrafy, billed monthly. Includes a 3-day free trial.
+
+--- Pro Yearly (hydrafy_pro_yearly_1) ---
+Display Name:   Hydrafy Pro (Yearly)
+Description:    Full access to Hydrafy, billed yearly — best value. Includes a 3-day free trial.
+
+
+----------------------------------------------------------
+SUBSCRIPTION REVIEW NOTES  (optional, but recommended for a hard paywall)
+----------------------------------------------------------
+Hydrafy is a subscription app. After onboarding, a subscription is required to
+access the app (Pro Monthly or Pro Yearly, both with a 3-day free trial). The
+subscription unlocks all hydration tracking, reminders, history, streaks, and
+mascot cosmetics. Purchases use StoreKit and can be restored via the "Restore
+purchases" button on the paywall.
+
+
+==========================================================
+STILL TO FILL IN (the only blanks above)
+==========================================================
+1. Screenshots          -> 6.9" size, 1320 x 2868 px
