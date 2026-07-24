@@ -5,6 +5,7 @@ import { todayKey, lastNDays } from '../utils/date';
 import { stateForPct } from '../utils/mascotState';
 import { milestonesCrossed, pickTipForMilestone } from '../utils/tips';
 import { STREAK_MILESTONES, COSMETICS } from '../constants/cosmetics';
+import { waterEquivalent } from '../constants/beverages';
 
 // Zustand store — single source of truth for app state.
 // Persistence is manual (per-slice) so we keep AsyncStorage shape stable and
@@ -101,12 +102,15 @@ export const useStore = create((set, get) => ({
   },
 
   // ── LOGGING ──────────────────────────────────────────────────────────
+  // `ml` is the volume drunk; only its water-equivalent (`waterMl`, per the
+  // beverage's hydration factor) counts toward the goal. Water drinks: 1:1.
   async logDrink(ml, kind = 'glass') {
     if (!ml || ml <= 0) return;
     const { todayLog, settings, tipsSeen } = get();
     const prevPct = todayLog.pct;
-    const entry   = { id: `${Date.now()}`, ts: new Date().toISOString(), ml, kind };
-    const totalMl = todayLog.totalMl + ml;
+    const waterMl = waterEquivalent(ml, kind);
+    const entry   = { id: `${Date.now()}`, ts: new Date().toISOString(), ml, waterMl, kind };
+    const totalMl = todayLog.totalMl + waterMl;
     const pct     = Math.round((totalMl / settings.goalMl) * 1000) / 10;
 
     // Determine if we crossed any 25/50/75/100 boundaries.
@@ -147,7 +151,7 @@ export const useStore = create((set, get) => ({
       pendingTipId,
       streak,
       pendingWarning,
-      lastLog: { ml, key: Date.now() },
+      lastLog: { ml: waterMl, key: Date.now() },
     });
 
     await Promise.all([
@@ -161,7 +165,8 @@ export const useStore = create((set, get) => ({
   async removeEntry(entryId) {
     const { todayLog, settings } = get();
     const entries = todayLog.entries.filter((e) => e.id !== entryId);
-    const totalMl = entries.reduce((s, e) => s + e.ml, 0);
+    // Older entries predate `waterMl`; they were logged as plain water.
+    const totalMl = entries.reduce((s, e) => s + (e.waterMl ?? e.ml), 0);
     const pct     = Math.round((totalMl / settings.goalMl) * 1000) / 10;
     const updated = { ...todayLog, entries, totalMl, pct };
     set({ todayLog: updated });

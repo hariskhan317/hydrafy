@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Platform } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -34,6 +35,15 @@ Notifications.setNotificationHandler({
     shouldSetBadge: false,
   }),
 });
+
+// Android 8+ drops notifications that aren't posted to a channel.
+if (Platform.OS === 'android') {
+  Notifications.setNotificationChannelAsync('default', {
+    name: 'Hydration reminders',
+    importance: Notifications.AndroidImportance.DEFAULT,
+    lightColor: '#3fa8d6',
+  }).catch(() => {});
+}
 
 export default function App() {
   const [hydrated, setHydrated] = useState(false);

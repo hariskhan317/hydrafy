@@ -16,7 +16,11 @@
       }
     },
     "android": {
-      "package": "com.haris.hydrafy"
+      "package": "com.haris.hydrafy",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/icon.png",
+        "backgroundColor": "#3fa8d6"
+      }
     },
     "web": {},
     "plugins": [

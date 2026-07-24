@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
-import { View, Pressable, StyleSheet } from 'react-native';
+import { View, Pressable, StyleSheet, ScrollView } from 'react-native';
 import Slider from '@react-native-community/slider';
 
 import Mascot from '../components/Mascot';
 import Button from '../components/Button';
-import { H2, DisplayXL, Body, Mono } from '../components/Text';
+import { H2, DisplayXL, Body, BodySm, Mono } from '../components/Text';
 import { CloseIcon } from '../components/Icons';
 import { COLORS, FONTS, SHADOW } from '../constants/colors';
+import { BEVERAGES, waterEquivalent } from '../constants/beverages';
 import { useStore } from '../state/store';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -15,9 +16,12 @@ const PRESETS = [100, 200, 250, 330, 400, 500, 600, 750];
 export default function CustomAmount({ navigation }) {
   const logDrink = useStore((s) => s.logDrink);
   const [amt, setAmt] = useState(330);
+  const [bev, setBev] = useState(BEVERAGES[0]);
+
+  const counted = waterEquivalent(amt, bev.id);
 
   const onLog = async () => {
-    await logDrink(amt, 'custom');
+    await logDrink(amt, bev.id);
     navigation.goBack();
   };
 
@@ -27,17 +31,43 @@ export default function CustomAmount({ navigation }) {
       <SafeAreaView edges={['bottom']} style={s.sheet}>
         <View style={s.handle} />
         <View style={s.headerRow}>
-          <H2>Custom amount</H2>
+          <H2>Log a drink</H2>
           <Pressable onPress={() => navigation.goBack()} style={s.closeBtn}>
             <CloseIcon size={18} color={COLORS.ink[700]} />
           </Pressable>
         </View>
+
+        {/* Drink type */}
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          style={{ marginTop: 14, marginHorizontal: -22 }}
+          contentContainerStyle={{ gap: 8, paddingHorizontal: 22 }}
+        >
+          {BEVERAGES.map((b) => (
+            <Pressable
+              key={b.id}
+              onPress={() => setBev(b)}
+              style={[s.bevChip, bev.id === b.id && s.bevChipOn]}
+            >
+              <Body style={{ fontSize: 16 }}>{b.emoji}</Body>
+              <Body style={{ fontFamily: FONTS.bodySemi, color: bev.id === b.id ? '#fff' : COLORS.ink[700], fontSize: 13 }}>
+                {b.label}
+              </Body>
+            </Pressable>
+          ))}
+        </ScrollView>
 
         <View style={{ alignItems: 'center', marginTop: 14 }}>
           <DisplayXL style={{ fontSize: 56 }}>
             <DisplayXL color={COLORS.sky[600]}>{amt}</DisplayXL>
             <Body style={{ fontSize: 22, color: COLORS.ink[500], fontFamily: FONTS.bodySemi }}>  ml</Body>
           </DisplayXL>
+          {bev.factor !== 1 && (
+            <BodySm style={{ color: COLORS.sky[600], fontFamily: FONTS.bodySemi }}>
+              counts as {counted} ml of water
+            </BodySm>
+          )}
         </View>
 
         <Slider
@@ -68,7 +98,7 @@ export default function CustomAmount({ navigation }) {
           ))}
         </View>
 
-        <Button title={`Log ${amt} ml`} onPress={onLog} style={{ marginTop: 16 }} />
+        <Button title={`Log ${amt} ml ${bev.label.toLowerCase()}`} onPress={onLog} style={{ marginTop: 16 }} />
       </SafeAreaView>
     </View>
   );
@@ -88,6 +118,12 @@ const s = StyleSheet.create({
     width: 32, height: 32, borderRadius: 16, backgroundColor: COLORS.surfaceMute,
     alignItems: 'center', justifyContent: 'center',
   },
+  bevChip: {
+    flexDirection: 'row', alignItems: 'center', gap: 6,
+    paddingVertical: 8, paddingHorizontal: 12, borderRadius: 999,
+    backgroundColor: COLORS.surfaceMute,
+  },
+  bevChipOn: { backgroundColor: COLORS.sky[500] },
   grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginTop: 8 },
   preset: {
     width: '23.5%', paddingVertical: 12, borderRadius: 12,

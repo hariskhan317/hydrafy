@@ -47,4 +47,4 @@ Go to Settings → "Reset all data", or delete the App from your device.
 
 ## Privacy
 
-Read our Privacy Policy here: <ADD YOUR PRIVACY POLICY URL>
+Read our Privacy Policy here: https://hariskhan317.github.io/hydrafy/privacy-policy.html

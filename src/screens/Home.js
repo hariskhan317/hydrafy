@@ -15,6 +15,7 @@ import { COLORS, FONTS } from '../constants/colors';
 import { useStore } from '../state/store';
 import { formatHeaderDate, formatTime } from '../utils/date';
 import { formatVolume } from '../utils/goal';
+import { beverageById } from '../constants/beverages';
 
 export default function Home({ navigation }) {
   const todayLog       = useStore((s) => s.todayLog);
@@ -104,7 +105,7 @@ export default function Home({ navigation }) {
         <View style={s.quickRow}>
           <QuickAddTile amount="+250" label="glass"  onPress={() => onAdd(250, 'glass')} />
           <QuickAddTile amount="+500" label="bottle" onPress={() => onAdd(500, 'bottle')} />
-          <QuickAddTile amount="+···" label="custom" onPress={() => navigation.navigate('CustomAmount')} />
+          <QuickAddTile amount="+···" label="drinks" onPress={() => navigation.navigate('CustomAmount')} />
         </View>
 
         {/* Today's log */}
@@ -117,19 +118,35 @@ export default function Home({ navigation }) {
             <Card flat><BodySm>No sips yet. Tap a quick-add tile to log one.</BodySm></Card>
           ) : (
             <Card padding={0}>
-              {[...todayLog.entries].reverse().map((e, i) => (
-                <Pressable
-                  key={e.id}
-                  onLongPress={() => onRemove(e)}
-                  style={[s.logRow, i !== 0 && { borderTopWidth: 1, borderTopColor: COLORS.ink[100] }]}
-                >
-                  <View style={s.logIcon}><DropIcon size={18} color={COLORS.sky[500]} /></View>
-                  <Body style={{ flex: 1, color: COLORS.ink[900], fontFamily: FONTS.bodySemi }}>
-                    {formatVolume(e.ml, settings.displayUnit)}
-                  </Body>
-                  <Body style={{ color: COLORS.ink[500] }}>{formatTime(new Date(e.ts))}</Body>
-                </Pressable>
-              ))}
+              {[...todayLog.entries].reverse().map((e, i) => {
+                const bev = beverageById(e.kind);
+                const counted = e.waterMl ?? e.ml;
+                const isWater = bev.id === 'water';
+                return (
+                  <Pressable
+                    key={e.id}
+                    onLongPress={() => onRemove(e)}
+                    style={[s.logRow, i !== 0 && { borderTopWidth: 1, borderTopColor: COLORS.ink[100] }]}
+                  >
+                    <View style={s.logIcon}>
+                      {isWater
+                        ? <DropIcon size={18} color={COLORS.sky[500]} />
+                        : <Body style={{ fontSize: 16 }}>{bev.emoji}</Body>}
+                    </View>
+                    <View style={{ flex: 1 }}>
+                      <Body style={{ color: COLORS.ink[900], fontFamily: FONTS.bodySemi }}>
+                        {formatVolume(e.ml, settings.displayUnit)}
+                      </Body>
+                      {!isWater && (
+                        <BodySm style={{ color: COLORS.ink[500] }}>
+                          {bev.label}{counted !== e.ml ? ` · counts ${formatVolume(counted, settings.displayUnit)}` : ''}
+                        </BodySm>
+                      )}
+                    </View>
+                    <Body style={{ color: COLORS.ink[500] }}>{formatTime(new Date(e.ts))}</Body>
+                  </Pressable>
+                );
+              })}
               <BodySm style={{ padding: 12, color: COLORS.ink[300], textAlign: 'center' }}>
                 Long-press an entry to remove
               </BodySm>

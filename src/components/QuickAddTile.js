@@ -20,7 +20,7 @@ export default function QuickAddTile({ amount, label, onPress, variant = 'sky', 
     >
       <H2 style={{ color: variant === 'sky' ? COLORS.sky[600] : COLORS.ink[900] }}>
         {amount}
-        {label === 'custom' || label === '···' ? null : (
+        {amount === '+···' ? null : (
           <BodySm style={{ color: variant === 'sky' ? COLORS.sky[500] : COLORS.ink[500], fontFamily: FONTS.bodySemi }}>
             {'  ml'}
           </BodySm>
